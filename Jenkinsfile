@@ -3,17 +3,15 @@ pipeline {
     
     environment {
         checkoutBranch = "master"
-        repoName = "https://github.com/chanduprasadk/devops-practice.git"
+        repoName = "https://github.com/ramakrishna2709/mavenbuild.git"
         
         nexusartifactId = "vprofile"
         version = "2.0" 
-        nexusRepo = "maven-releases/"
+        nexusRepo = "maven-releases"
         filename = "target/vprofile-v1.war"
-        registry = "ramakrishna2709/docker-test"
-        registryCredential = 'docker-login'
+       
     }
-    
-   tools {
+     tools {
      maven 'MAVEN_HOME'
     }
     
@@ -45,55 +43,19 @@ pipeline {
       }
       }
 
-      /*stage('Apply Tag'){
-          steps{
-              println "inside the Apply tag stage"
-              withCredentials([usernamePassword(credentialsId: 'git-server', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                  sh("git tag -a ${BUILD_NUMBER} -m 'Tag for version3.0'")
-                  sh("git push https://${GIT_USERNAME}:${GIT_PASSWORD}@${repoName} --tags")
-
-              }
-          }
-      }*/
+     
 
        stage('Deploy to Nexus')
 			{
             steps{
 			    println "[INFO] running deploy to nexus"
                 
-                //No need to rename the jar file		 
-	        
-                //filename = "target/vprofile-v1.war"
 				println "${filename}"
-				//Uncommented for actual testing
-                step([$class: 'NexusArtifactUploader', artifacts: [[artifactId: "${nexusartifactId}", classifier: '', file: "${filename}", type: 'war']], credentialsId: 'nexus-server', groupId: 'com.visualpathit', nexusUrl: '35.193.85.190:8081', nexusVersion: 'nexus3', protocol: 'http', repository: "${nexusRepo}", version: "${version}"])	
+			
+                step([$class: 'NexusArtifactUploader', artifacts: [[artifactId: "${nexusartifactId}", classifier: '', file: "${filename}", type: 'war']], credentialsId: 'nexus-server', groupId: 'com.visualpathit', nexusUrl: '35.224.126.222:8081', nexusVersion: 'nexus3', protocol: 'http', repository: "${nexusRepo}", version: "${version}"])	
 	            }
             }
             
-        stage('Build and Publish'){
-            steps{
-                println "inside the Build and Publish stage"
-              /*        withDockerRegistry([ credentialsId: "docker-login", url: "" ]){
-                    sh '''
-                       docker --version
-                       docker build -t javaapp:$BUILD_NUMBER .
-                       docker tag javaapp:$BUILD_NUMBER ramakrishna2709/javaapp:$BUILD_NUMBER
-                       docker push ramakrishna2709/javaapp:$BUILD_NUMBER
-                    '''
-                    } */
-                    
-                println "push image with script tag"
-                
-                    script {
-                      dockerImage = docker.build registry + ":$BUILD_NUMBER"
-                      docker.withRegistry( '', registryCredential ) {
-                        dockerImage.push()
-                    }
-                            
-                }
-            }
-                }
+       
 }
 }
-
-
