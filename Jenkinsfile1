@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         checkoutBranch = "master"
-        repoName = "https://github.com/chanduprasadk/devops-practice.git"
+        repoName = "https://github.com/ramakrishna2709/mavenbuild.git"
         
         nexusartifactId = "vprofile"
         version = "2.0" 
