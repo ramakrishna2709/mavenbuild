@@ -13,6 +13,17 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Choose where you want to publish the build'
+        required: true
+        default: AppTester
+        type: choice
+        options:
+          - GooglePlay
+          - AppTester
+          - Both
 
 jobs:
   build:
@@ -31,7 +42,11 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: Ubuntu GitHub Actions environment variables List
       run: env
-          
+    - uses: actions/upload-artifact@v3
+      name: Upload Artifact
+      with:
+        name: pom
+        path: "pom.xml"     
     
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
