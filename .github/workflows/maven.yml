@@ -29,13 +29,8 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-    - name: Print Environment Variables
-      # You may pin to the exact commit or the version.
-      # uses: rahkumar56/gha_printenvvariable@435383caf36ce69984b1f37f395306d4e91195aa
-      uses: rahkumar56/gha_printenvvariable@v1.0.0
-      with:
-        # List of environment variables to print.
-        envs: default
+    - name: Ubuntu GitHub Actions environment variables List
+      run: env
           
     
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
