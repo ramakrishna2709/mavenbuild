@@ -55,12 +55,15 @@ jobs:
   
   deploy:
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - name: Download a Build Artifact
         uses: actions/download-artifact@v4.3.0
         with:
           # Name of the artifact to download. If unspecified, all artifacts for the run are downloaded.
-          name: download artifact
-          # IDs of the artifacts to download, comma-separated. Either inputs `artifact-ids` or `name` can be used, but not both.
-          artifact-ids: maventest
-                
+          name: download artifact  
+      - name: Simple Echo Test
+        uses: ashwin-ant/action-test-publish@beta
+        with:
+          message: java application
+          
