@@ -9,8 +9,8 @@
 name: Java CI with Maven
 
 on:
-  push:
-    branches: [ "master" ]
+  # push:
+  #   branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
   workflow_dispatch:
@@ -42,11 +42,12 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: Ubuntu GitHub Actions environment variables List
       run: env
-    - uses: actions/upload-artifact@v3
-      name: Upload Artifact
+    - name: Upload artifact
+      uses: echapmanFromBunnings/upload-artifact@3.0.0
       with:
-        name: pom
-        path: "pom.xml"     
+        name: mavenbuild
+        path: pom.xml     
+             
     
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
