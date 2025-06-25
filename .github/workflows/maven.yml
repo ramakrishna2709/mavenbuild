@@ -61,7 +61,7 @@ jobs:
         uses: actions/download-artifact@v4.3.0
         with:
           # Name of the artifact to download. If unspecified, all artifacts for the run are downloaded.
-          name: download artifact  
+          name: maventest
       - name: Simple Echo Test
         uses: ashwin-ant/action-test-publish@beta
         with:
