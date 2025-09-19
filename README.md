@@ -1,3 +1,3 @@
 # mavenbuild
 maven project
-java project
+java projects
